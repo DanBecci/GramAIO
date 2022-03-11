@@ -17,7 +17,9 @@ namespace GramAIO
 {
     public partial class GramAIO : Form
     {
-        private bool loggedIn = false;
+        bool mouseDown;
+        private Point offset;
+
         private int numCounter = 0;
         int placeCounter;
         int listElemCounter;
@@ -29,10 +31,14 @@ namespace GramAIO
             richTextBox1.Text = "Enter tags, one per line. Do not include '#' in your tags!";
             richTextBox2.Text = "Enter users, one per line. Do not include '@' in your users!";
             richTextBox3.Text = "Enter comment to post. Only one comment allowed!";
-            usrTB.ForeColor = Color.Red;
-            pswTB.ForeColor = Color.Red;
+            usrTB.ForeColor = Color.Green;
+            pswTB.ForeColor = Color.Green;
+            usrTB.Text = Properties.Settings.Default.username;
+            pswTB.Text = Properties.Settings.Default.password;
+            textBox1.Text = "5000";
+            textBox2.Text = "5";
         }
-
+        List<string> listElem2 = new List<string>();
         private void button1_Click(object sender, EventArgs e)
         {
             if(label6.ForeColor == Color.Red || label5.ForeColor == Color.Red || label4.ForeColor == Color.Red)
@@ -79,8 +85,6 @@ namespace GramAIO
             {
                 list.Add(line);
             }
-            if (loggedIn == false)
-            {
                 new Task(() =>
                 {
                     ChromeOptions optionsRenew = new ChromeOptions();
@@ -114,7 +118,6 @@ namespace GramAIO
                         findAmount3.Click();
                         w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.CssSelector("#react-root > section > main > div > div > div > div > button")));
                         driverRenew.Navigate().GoToUrl("https://www.instagram.com/" + usrTB.Text + "/");
-                        loggedIn = true;
 
                         // Logic part of program to handle module to run, all other code should be handled in their own classes
 
@@ -128,113 +131,217 @@ namespace GramAIO
                             listElemCounter = 0;
                             //INTERACTIONS
                             placeCounter = 0;
-                            List<string> listElem2 = new List<string>();
+                            //List<string> listElem2 = new List<string>();
                             async Task FollowModule()
                             {
-                                if (checkBox5.Checked)
+                                while (numCounter < richTextBox1.Lines.Count())
                                 {
-                                    if(listElemCounter < 9)
-                                    {
-                                        listElemCounter = 9;
-                                    }                            
-                                }
-                                else
-                                {
-                                    listElemCounter = 0;
-                                }
-                                try
-                                {
-                                    while (paused == true)
-                                    {
 
-                                    }
-                                    List<string> listElem = new List<string>();
-                                    Thread.Sleep(Convert.ToInt32(textBox1.Text));
-                                    driverRenew.Navigate().GoToUrl("https://www.instagram.com/explore/tags/" + list[numCounter] + "/");
-                                    var elem = driverRenew.FindElements(By.XPath("//a[@href]"));
-                                    foreach (var elems in elem)
-                                    {
-                                        string ELEM = elems.GetAttribute("href");
-                                        listElem.Add(ELEM);
-                                    }
-                                    Thread.Sleep(Convert.ToInt32(textBox1.Text));
-                                    if(listElem[listElemCounter] == null || listElem[listElemCounter] == "https://www.instagram.com/")
-                                    {
-                                        numCounter++;
-                                        placeCounter = 0;
-                                        FollowModule();
-                                    }
-                                    if (listElem2.Contains(listElem[listElemCounter]))
-                                    {
-                                        listElemCounter++;
-                                    }
-                                    driverRenew.Navigate().GoToUrl(listElem[listElemCounter]);
-                                    listElem2.Add(listElem[listElemCounter]);
-                                    w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.CssSelector("button.sqdOP:nth-child(2) > div:nth-child(1)")));
-                                    Thread.Sleep(Convert.ToInt32(textBox1.Text));
-                                    driverRenew.FindElement(By.CssSelector("button.sqdOP:nth-child(2) > div:nth-child(1)")).Click();
-                                    Thread.Sleep(Convert.ToInt32(textBox1.Text));
-                                    driverRenew.Navigate().Refresh();
-                                    if (checkBox2.Checked)
-                                    {
-                                        //like the post
-                                        //w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath("/html/body/div[1]/section/main/div/div[1]/article/div/div[2]/div/div[2]/section[1]/span[1]/button/div[1]/svg")));
-                                        Thread.Sleep(Convert.ToInt32(textBox1.Text));
-                                        var svgObject = driverRenew.FindElement(By.CssSelector("button span > svg[aria-label='Like']"));
-                                        Actions builder = new Actions(driverRenew);
-                                        builder.MoveToElement(svgObject).Click().Build().Perform();
-                                    }
 
-                                    if (checkBox3.Checked)
+                                    if (checkBox5.Checked)
                                     {
-                                        //comment on post
-
-                                        Thread.Sleep(Convert.ToInt32(textBox1.Text));
-                                        var svgObject = driverRenew.FindElement(By.XPath("/html/body/div[1]/section/main/div/div[1]/article/div/div[2]/div/div[2]/section[3]/div/form/textarea"));
-                                        Actions builder = new Actions(driverRenew);
-                                        builder.MoveToElement(svgObject).Click().Build().Perform();
-                                        /*
-                                        Thread.Sleep(Convert.ToInt32(textBox1.Text));
-                                        svgObject.SendKeys(richTextBox3.Text);
-                                        Thread.Sleep(Convert.ToInt32(textBox1.Text));
-                                        svgObject = driverRenew.FindElement(By.XPath("/html/body/div[1]/section/main/div/div[1]/article/div/div[2]/div/div[2]/section[3]/div/form/button/div"));
-                                        builder.MoveToElement(svgObject).Click().Build().Perform();
-                                        */
-
-                                        var wb = driverRenew.FindElement(By.XPath("/html/body/div[1]/section/main/div/div[1]/article/div/div[2]/div/div[2]/section[3]/div/form/textarea"));
-                                        wb.SendKeys(richTextBox3.Text);
-                                        // IJavaScriptExecutor jse = (IJavaScriptExecutor)driverRenew;
-                                        // jse.ExecuteScript($"arguments[0].value='{richTextBox3.Text}';", wb);
-
-                                        Thread.Sleep(Convert.ToInt32(textBox1.Text));
-                                        var svgObject2 = driverRenew.FindElement(By.XPath("/html/body/div[1]/section/main/div/div[1]/article/div/div[2]/div/div[2]/section[3]/div/form/button/div"));
-                                        Actions builder2 = new Actions(driverRenew);
-                                        builder2.MoveToElement(svgObject2).Click().Build().Perform();
+                                        if (listElemCounter < 9)
+                                        {
+                                            listElemCounter = 9;
+                                        }
                                     }
-
-                                    listElemCounter++;
-                                    placeCounter++;
-                                    if (placeCounter == Convert.ToInt32(textBox2.Text))
+                                    else
                                     {
-                                        numCounter++;
-                                        placeCounter = 0;
                                         listElemCounter = 0;
                                     }
-                                    FollowModule();
+                                    try
+                                    {
+                                        while (paused == true)
+                                        {
+
+                                        }
+                                        List<string> listElem = new List<string>();
+                                        Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                        driverRenew.Navigate().GoToUrl("https://www.instagram.com/explore/tags/" + list[numCounter] + "/");
+                                        var elem = driverRenew.FindElements(By.XPath("//a[@href]"));
+                                        foreach (var elems in elem)
+                                        {
+                                            string ELEM = elems.GetAttribute("href");
+                                            listElem.Add(ELEM);
+                                        }
+                                        Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                        if (listElem[listElemCounter] == null || listElem[listElemCounter] == "https://www.instagram.com/")
+                                        {
+                                            numCounter++;
+                                            placeCounter = 0;
+                                            FollowModule();
+                                        }
+                                        void checkLink()
+                                        {
+                                            if (listElem2.Contains(listElem[listElemCounter]))
+                                            {
+                                                listElemCounter++;
+                                                checkLink();
+                                            }
+                                        }
+                                        checkLink();
+                                        driverRenew.Navigate().GoToUrl(listElem[listElemCounter]);
+                                        listElem2.Add(listElem[listElemCounter]);
+                                        w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.CssSelector("button.sqdOP:nth-child(2) > div:nth-child(1)")));
+                                        Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                        driverRenew.FindElement(By.CssSelector("button.sqdOP:nth-child(2) > div:nth-child(1)")).Click();
+                                        Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                        driverRenew.Navigate().Refresh();
+                                        if (checkBox2.Checked)
+                                        {
+                                            //like the post
+                                            //w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath("/html/body/div[1]/section/main/div/div[1]/article/div/div[2]/div/div[2]/section[1]/span[1]/button/div[1]/svg")));
+                                            Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                            var svgObject = driverRenew.FindElement(By.CssSelector("button span > svg[aria-label='Like']"));
+                                            Actions builder = new Actions(driverRenew);
+                                            builder.MoveToElement(svgObject).Click().Build().Perform();
+                                        }
+
+                                        if (checkBox3.Checked)
+                                        {
+                                            //comment on post
+
+                                            Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                            var svgObject = driverRenew.FindElement(By.XPath("/html/body/div[1]/section/main/div/div[1]/article/div/div[2]/div/div[2]/section[3]/div/form/textarea"));
+                                            Actions builder = new Actions(driverRenew);
+                                            builder.MoveToElement(svgObject).Click().Build().Perform();
+                                            /*
+                                            Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                            svgObject.SendKeys(richTextBox3.Text);
+                                            Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                            svgObject = driverRenew.FindElement(By.XPath("/html/body/div[1]/section/main/div/div[1]/article/div/div[2]/div/div[2]/section[3]/div/form/button/div"));
+                                            builder.MoveToElement(svgObject).Click().Build().Perform();
+                                            */
+
+                                            var wb = driverRenew.FindElement(By.XPath("/html/body/div[1]/section/main/div/div[1]/article/div/div[2]/div/div[2]/section[3]/div/form/textarea"));
+                                            wb.SendKeys(richTextBox3.Text);
+                                            // IJavaScriptExecutor jse = (IJavaScriptExecutor)driverRenew;
+                                            // jse.ExecuteScript($"arguments[0].value='{richTextBox3.Text}';", wb);
+
+                                            Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                            var svgObject2 = driverRenew.FindElement(By.XPath("/html/body/div[1]/section/main/div/div[1]/article/div/div[2]/div/div[2]/section[3]/div/form/button/div"));
+                                            Actions builder2 = new Actions(driverRenew);
+                                            builder2.MoveToElement(svgObject2).Click().Build().Perform();
+                                        }
+
+                                        listElemCounter++;
+                                        placeCounter++;
+                                        if (placeCounter == Convert.ToInt32(textBox2.Text))
+                                        {
+                                            numCounter++;
+                                            placeCounter = 0;
+                                            listElemCounter = 0;
+                                        }
+                                        FollowModule();
+                                    }
+                                    catch (Exception)
+                                    {
+                                        //TODO: renable this below
+                                        //driverRenew.Quit();
+                                        //loggedIn = false;
+                                    }
                                 }
-                                catch (Exception)
-                                {
-                                    //TODO: renable this below
-                                    //driverRenew.Quit();
-                                    //loggedIn = false;
-                                }
+                                //MessageBox.Show("No more tags to run");
+                                driverRenew.Quit();
+                                driverRenew.Close();
                             }
                             FollowModule();
                         }
                         else if (checkBox2.Checked)
                         {
-                            // Like module
-                        }
+                            //TAG
+                            numCounter = 0;
+                            //POST
+                            listElemCounter = 0;
+                            //INTERACTIONS
+                            placeCounter = 0;
+                            
+                            async Task LikeModule()
+                            {
+                                while (numCounter < richTextBox1.Lines.Count())
+                                {
+
+
+                                    if (checkBox5.Checked)
+                                    {
+                                        if (listElemCounter < 9)
+                                        {
+                                            listElemCounter = 9;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        listElemCounter = 0;
+                                    }
+                                    try
+                                    {
+                                        while (paused == true)
+                                        {
+
+                                        }
+                                        List<string> listElem = new List<string>();
+                                        Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                        driverRenew.Navigate().GoToUrl("https://www.instagram.com/explore/tags/" + list[numCounter] + "/");
+                                        var elem = driverRenew.FindElements(By.XPath("//a[@href]"));
+                                        foreach (var elems in elem)
+                                        {
+                                            string ELEM = elems.GetAttribute("href");
+                                            listElem.Add(ELEM);
+                                        }
+                                        Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                        if (listElem[listElemCounter] == null || listElem[listElemCounter] == "https://www.instagram.com/")
+                                        {
+                                            numCounter++;
+                                            placeCounter = 0;
+                                            LikeModule();
+                                        }
+                                        void checkLink()
+                                        {
+                                            if (listElem2.Contains(listElem[listElemCounter]))
+                                            {
+                                                listElemCounter++;
+                                                checkLink();
+                                            }
+                                        }
+                                        checkLink();
+                                        driverRenew.Navigate().GoToUrl(listElem[listElemCounter]);
+                                        listElem2.Add(driverRenew.Url);
+                                        Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                        var svgObject = driverRenew.FindElement(By.CssSelector("button span > svg[aria-label='Like']"));
+                                        Actions builder = new Actions(driverRenew);
+                                        builder.MoveToElement(svgObject).Click().Build().Perform();
+
+                                        if (checkBox1.Checked)
+                                        {
+                                            //follow the user
+                                            w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.CssSelector("button.sqdOP:nth-child(2) > div:nth-child(1)")));
+                                            Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                            driverRenew.FindElement(By.CssSelector("button.sqdOP:nth-child(2) > div:nth-child(1)")).Click();
+                                            Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                            driverRenew.Navigate().Refresh();
+                                        }
+
+                                        listElemCounter++;
+                                        placeCounter++;
+                                        if (placeCounter == Convert.ToInt32(textBox2.Text))
+                                        {
+                                            numCounter++;
+                                            placeCounter = 0;
+                                            listElemCounter = 0;
+                                        }
+                                        LikeModule();
+                                    }
+                                    catch (Exception)
+                                    {
+
+                                    }
+                                }
+                                //MessageBox.Show("No more tags to run");
+                                driverRenew.Quit();
+                                driverRenew.Close();
+                            }
+                            LikeModule();
+                                }
                         else if (checkBox3.Checked)
                         {
                             // Comment module
@@ -255,11 +362,6 @@ namespace GramAIO
                         //MessageBox.Show("There was an error!");
                     }
                 }).Start();
-            }
-            else
-            {
-                MessageBox.Show("Sorry, only one login at a time!");
-            }
         }
 
         private void usrTB_Click(object sender, EventArgs e)
@@ -275,7 +377,6 @@ namespace GramAIO
         private void button2_Click(object sender, EventArgs e)
         {
             numCounter = 0;
-            loggedIn = false;
             System.Diagnostics.Process process = new System.Diagnostics.Process();
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
             startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
@@ -470,6 +571,56 @@ namespace GramAIO
             else
             {
                 label6.ForeColor = Color.FromArgb(251, 173, 80);
+            }
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void panel3_MouseDown(object sender, MouseEventArgs e)
+        {
+            offset.X = e.X;
+            offset.Y = e.Y;
+            mouseDown = true;
+        }
+
+        private void panel3_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mouseDown == true)
+            {
+                Point currentScreenPos = PointToScreen(e.Location);
+                Location = new Point(currentScreenPos.X - offset.X, currentScreenPos.Y - offset.Y);
+            }
+        }
+
+        private void panel3_MouseUp(object sender, MouseEventArgs e)
+        {
+            mouseDown = false;
+        }
+
+        private void usrTB_TextChanged(object sender, EventArgs e)
+        {
+            if(usrTB.Text == "USERNAME")
+            {
+                usrTB.ForeColor = Color.Red;
+            }
+            else
+            {
+                usrTB.ForeColor = Color.Green;
+            }
+        }
+
+        private void pswTB_TextChanged(object sender, EventArgs e)
+        {
+            if (pswTB.Text == "PASSWORD")
+            {
+                pswTB.ForeColor = Color.Red;
+            }
+            else
+            {
+                pswTB.ForeColor = Color.Green;
             }
         }
     }

@@ -16,7 +16,14 @@ namespace GramAIO
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new GramAIO());
+            if(Properties.Settings.Default.username != null && Properties.Settings.Default.password != null)
+            {
+                Application.Run(new GramAIO());
+            }
+            else
+            {
+                Application.Run(new Form1());
+            }
         }
     }
 }
