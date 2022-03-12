@@ -3,3 +3,5 @@ in beta and will be finished later this week. Most of the bot's functions work c
 experiment with my code or build the current version yourself. Make sure to include citation (Source code by slash#1995 on Discord)
 
 ![InkedGramAIO_LI](https://user-images.githubusercontent.com/97326643/157801471-d703b18d-1c33-417b-8aa2-2b920ecb1e67.jpg)
+
+VT: https://www.virustotal.com/gui/file/a99242431587636d3ede91f7a0e01dca22d310f2fd9fc18b06c4ab634dd35d4a/detection
