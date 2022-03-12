@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GramAIO
@@ -26,26 +20,26 @@ namespace GramAIO
             {
                 usernameTextBox.Text = "";
             }
-            
+
         }
 
         private void passwordTextBox_Click(object sender, EventArgs e)
         {
-            if(passwordTextBox.Text == "Password")
+            if (passwordTextBox.Text == "Password")
             {
                 passwordTextBox.Text = "";
-            }        
+            }
         }
 
         private void loginBtn_Click(object sender, EventArgs e)
         {
-            if(usernameTextBox.Text != "Username" && passwordTextBox.Text != "Password" && usernameTextBox.Text != null && passwordTextBox.Text != null)
+            if (usernameTextBox.Text != "Username" && passwordTextBox.Text != "Password" && usernameTextBox.Text != null && passwordTextBox.Text != null)
             {
                 Properties.Settings.Default.username = usernameTextBox.Text;
                 Properties.Settings.Default.password = passwordTextBox.Text;
                 Properties.Settings.Default.Save();
                 new GramAIO().Show();
-                this.Hide();               
+                this.Hide();
             }
             else
             {
@@ -55,7 +49,7 @@ namespace GramAIO
 
         private void usernameTextBox_Leave(object sender, EventArgs e)
         {
-            if(usernameTextBox.Text == "")
+            if (usernameTextBox.Text == "")
             {
                 usernameTextBox.Text = "Username";
             }

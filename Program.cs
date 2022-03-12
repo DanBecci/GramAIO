@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GramAIO
@@ -16,7 +13,7 @@ namespace GramAIO
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            if(Properties.Settings.Default.username != null && Properties.Settings.Default.password != null)
+            if (Properties.Settings.Default.username != null && Properties.Settings.Default.password != null)
             {
                 Application.Run(new GramAIO());
             }

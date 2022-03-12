@@ -15,8 +15,3 @@ C:\Users\akl03\Desktop\GramAIO\GramAIO\obj\Release\GramAIO.csproj.CoreCompileInp
 C:\Users\akl03\Desktop\GramAIO\GramAIO\obj\Release\GramAIO.csproj.CopyComplete
 C:\Users\akl03\Desktop\GramAIO\GramAIO\obj\Release\GramAIO.exe
 C:\Users\akl03\Desktop\GramAIO\GramAIO\obj\Release\GramAIO.pdb
-C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Release\BouncyCastle.Crypto.dll
-C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Release\InstagramApiSharp.dll
-C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Release\Newtonsoft.Json.dll
-C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Release\BouncyCastle.Crypto.xml
-C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Release\Newtonsoft.Json.xml

@@ -54,6 +54,9 @@
             this.label6 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
+            this.loggingCheckbox = new System.Windows.Forms.CheckBox();
+            this.loggingRichTextBox = new System.Windows.Forms.RichTextBox();
+            this.button5 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -62,6 +65,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(47)))), ((int)(((byte)(51)))));
+            this.panel1.Controls.Add(this.loggingCheckbox);
             this.panel1.Controls.Add(this.checkBox5);
             this.panel1.Controls.Add(this.button4);
             this.panel1.Controls.Add(this.checkBox4);
@@ -246,7 +250,7 @@
             this.panel2.Controls.Add(this.label3);
             this.panel2.Location = new System.Drawing.Point(0, 30);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(804, 55);
+            this.panel2.Size = new System.Drawing.Size(788, 55);
             this.panel2.TabIndex = 1;
             // 
             // label1
@@ -359,7 +363,7 @@
             this.panel3.Controls.Add(this.label7);
             this.panel3.Location = new System.Drawing.Point(0, 1);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(816, 38);
+            this.panel3.Size = new System.Drawing.Size(1101, 38);
             this.panel3.TabIndex = 10;
             this.panel3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel3_MouseDown);
             this.panel3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel3_MouseMove);
@@ -376,12 +380,50 @@
             this.label7.Text = "X";
             this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
+            // loggingCheckbox
+            // 
+            this.loggingCheckbox.AutoSize = true;
+            this.loggingCheckbox.ForeColor = System.Drawing.Color.White;
+            this.loggingCheckbox.Location = new System.Drawing.Point(45, 35);
+            this.loggingCheckbox.Name = "loggingCheckbox";
+            this.loggingCheckbox.Size = new System.Drawing.Size(49, 17);
+            this.loggingCheckbox.TabIndex = 17;
+            this.loggingCheckbox.Text = "Logs";
+            this.loggingCheckbox.UseVisualStyleBackColor = true;
+            this.loggingCheckbox.CheckedChanged += new System.EventHandler(this.loggingCheckbox_CheckedChanged);
+            // 
+            // loggingRichTextBox
+            // 
+            this.loggingRichTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(47)))), ((int)(((byte)(51)))));
+            this.loggingRichTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.loggingRichTextBox.ForeColor = System.Drawing.Color.White;
+            this.loggingRichTextBox.Location = new System.Drawing.Point(797, 91);
+            this.loggingRichTextBox.Name = "loggingRichTextBox";
+            this.loggingRichTextBox.Size = new System.Drawing.Size(291, 383);
+            this.loggingRichTextBox.TabIndex = 13;
+            this.loggingRichTextBox.Text = "";
+            // 
+            // button5
+            // 
+            this.button5.FlatAppearance.BorderSize = 0;
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button5.ForeColor = System.Drawing.Color.White;
+            this.button5.Location = new System.Drawing.Point(1047, 59);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(50, 23);
+            this.button5.TabIndex = 16;
+            this.button5.Text = "CLEAR";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // GramAIO
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(44)))), ((int)(((byte)(47)))), ((int)(((byte)(51)))));
             this.ClientSize = new System.Drawing.Size(816, 489);
+            this.Controls.Add(this.button5);
+            this.Controls.Add(this.loggingRichTextBox);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
@@ -393,7 +435,7 @@
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.MaximumSize = new System.Drawing.Size(816, 489);
+            this.MaximumSize = new System.Drawing.Size(1100, 489);
             this.MinimumSize = new System.Drawing.Size(816, 489);
             this.Name = "GramAIO";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -437,5 +479,8 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox loggingCheckbox;
+        private System.Windows.Forms.RichTextBox loggingRichTextBox;
+        private System.Windows.Forms.Button button5;
     }
 }
