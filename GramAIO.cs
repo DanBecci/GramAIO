@@ -6,14 +6,17 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GramAIO
-{
+{  
     public partial class GramAIO : Form
     {
+        [DllImport("user32.dll")]
+        static extern bool HideCaret(IntPtr hWnd);
         bool mouseDown;
         private Point offset;
 
@@ -25,8 +28,8 @@ namespace GramAIO
         {
             InitializeComponent();
             pswTB.PasswordChar = '*';
-            richTextBox1.Text = "Enter tags, one per line. Do not include '#' in your tags!";
-            richTextBox2.Text = "Enter users, one per line. Do not include '@' in your users!";
+            richTextBox1.Text = "Enter tags with or without '#', one per line";
+            richTextBox2.Text = "Enter users with or without '@', one per line";
             richTextBox3.Text = "Enter comment to post. Only one comment allowed!";
             usrTB.ForeColor = Color.Green;
             pswTB.ForeColor = Color.Green;
@@ -35,14 +38,34 @@ namespace GramAIO
             textBox1.Text = "5000";
             textBox2.Text = "5";
             loggingRichTextBox.ReadOnly = true;
+            if(usrTB.Text == "" || pswTB.Text == "")
+            {
+                if(usrTB.Text == "")
+                {
+                    usrTB.ForeColor = Color.Red;
+                    usrTB.Text = "USERNAME";
+                }
+                if(pswTB.Text == "")
+                {
+                    pswTB.ForeColor = Color.Red;
+                    pswTB.Text = "PASSWORD";
+                }
+            }
+
+
+            usrTB.SelectionStart = usrTB.TextLength;
+            usrTB.SelectionLength = 0;
+            pswTB.SelectionStart = pswTB.TextLength;
+            pswTB.SelectionLength = 0;
+            panel1.Select();
         }
+
         private void TextColor(RichTextBox box, string text, Color color)
         {
             if (loggingCheckbox.Checked)
             {
                 box.SelectionStart = box.TextLength;
                 box.SelectionLength = 0;
-
                 box.SelectionColor = color;
                 box.AppendText("\n" + text);
                 box.SelectionColor = box.ForeColor;
@@ -52,6 +75,7 @@ namespace GramAIO
         List<string> listElem2 = new List<string>();
         private void button1_Click(object sender, EventArgs e)
         {
+            paused = false;
             if (checkBox4.Checked == false && checkBox1.Checked == false && checkBox3.Checked == false && checkBox2.Checked == false)
             {
                 MessageBox.Show("Please select a module to run first!");
@@ -98,18 +122,26 @@ namespace GramAIO
             TextColor(loggingRichTextBox, $"Logging in {usrTB.Text}", Color.Orange);
 
             List<string> list = new List<string>();
+            string linePlaceholder = "";
             foreach (string line in richTextBox1.Lines)
             {
-                list.Add(line);
+                linePlaceholder = line;
+                if (linePlaceholder.StartsWith("#"))
+                {
+                    linePlaceholder = linePlaceholder.Remove(0, 1);
+                }
+                list.Add(linePlaceholder);
+                            
             }
             new Task(() =>
             {
                 ChromeOptions optionsRenew = new ChromeOptions();
                 optionsRenew.AddArgument("--incognito");
+                optionsRenew.AddArgument("--silent");
+
                 var chromeDriverServiceRenew = ChromeDriverService.CreateDefaultService();
                 chromeDriverServiceRenew.HideCommandPromptWindow = true;
                 var driverRenew = new ChromeDriver(chromeDriverServiceRenew, optionsRenew);
-
                 try
                 {
                     // logging the user in.
@@ -202,6 +234,17 @@ namespace GramAIO
                                     }
                                     void checkLink()
                                     {
+                                        foreach(var elem2 in listElem2)
+                                        {
+                                            if(elem2 == listElem[listElemCounter])
+                                            {
+                                                TextColor(loggingRichTextBox, "Already took action on this post", Color.Red);
+                                                TextColor(loggingRichTextBox, "Moving to next post", Color.Orange);
+                                                listElemCounter++;
+                                                checkLink();
+                                            }
+                                        }
+                                        /*
                                         if (listElem2.Contains(listElem[listElemCounter]))
                                         {
                                             TextColor(loggingRichTextBox, "Already took action on this post", Color.Red);
@@ -209,6 +252,7 @@ namespace GramAIO
                                             listElemCounter++;
                                             checkLink();
                                         }
+                                        */
                                     }
                                     checkLink();
                                     TextColor(loggingRichTextBox, $"Getting post: {listElem[listElemCounter]}", Color.Orange);
@@ -344,6 +388,17 @@ namespace GramAIO
                                     }
                                     void checkLink()
                                     {
+                                        foreach (var elem2 in listElem2)
+                                        {
+                                            if (elem2 == listElem[listElemCounter])
+                                            {
+                                                TextColor(loggingRichTextBox, "Already took action on this post", Color.Red);
+                                                TextColor(loggingRichTextBox, "Moving to next post", Color.Orange);
+                                                listElemCounter++;
+                                                checkLink();
+                                            }
+                                        }
+                                        /*
                                         if (listElem2.Contains(listElem[listElemCounter]))
                                         {
                                             TextColor(loggingRichTextBox, "Already took action on this post", Color.Red);
@@ -351,6 +406,7 @@ namespace GramAIO
                                             listElemCounter++;
                                             checkLink();
                                         }
+                                        */
                                     }
                                     checkLink();
                                     TextColor(loggingRichTextBox, $"Getting post: {listElem[listElemCounter]}", Color.Orange);
@@ -426,12 +482,18 @@ namespace GramAIO
 
         private void usrTB_Click(object sender, EventArgs e)
         {
-            usrTB.Text = "";
+            if(usrTB.Text == "USERNAME")
+            {
+                usrTB.Text = "";
+            }       
         }
 
         private void pswTB_Click(object sender, EventArgs e)
         {
-            pswTB.Text = "";
+            if(pswTB.Text == "PASSWORD")
+            {
+                pswTB.Text = "";
+            }     
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -452,6 +514,10 @@ namespace GramAIO
             process.StartInfo = startInfo;
             process.Start();
             TextColor(loggingRichTextBox, "Reset complete", Color.Green);
+            numCounter = 0;
+            placeCounter = 0;
+            listElemCounter = 0;
+            paused = true;
         }
 
         private void textBox1_Click(object sender, EventArgs e)
@@ -470,6 +536,11 @@ namespace GramAIO
             {
                 usrTB.Text = "USERNAME";
             }
+            else
+            {
+                Properties.Settings.Default.username = usrTB.Text;
+                Properties.Settings.Default.Save();
+            }
         }
 
         private void pswTB_Leave(object sender, EventArgs e)
@@ -477,6 +548,11 @@ namespace GramAIO
             if (pswTB.Text == "")
             {
                 pswTB.Text = "PASSWORD";
+            }
+            else
+            {
+                Properties.Settings.Default.password = pswTB.Text;
+                Properties.Settings.Default.Save();
             }
         }
 
@@ -507,7 +583,7 @@ namespace GramAIO
         {
             if (richTextBox1.Text == "")
             {
-                richTextBox1.Text = "Enter tags, one per line. Do not include '#' in your tags!";
+                richTextBox1.Text = "Enter tags with or without '#', one per line";
             }
         }
 
@@ -515,7 +591,7 @@ namespace GramAIO
         {
             if (richTextBox2.Text == "")
             {
-                richTextBox2.Text = "Enter users, one per line. Do not include '@' in your users!";
+                richTextBox2.Text = "Enter users with or without '@', one per line";
             }
         }
 
@@ -693,17 +769,29 @@ namespace GramAIO
             {
                 this.Width = 1100;
                 label7.Location = new Point(1072, 12);
+                loggingRichTextBox.Visible = true;
             }
             else
             {
                 this.Width = 816;
                 label7.Location = new Point(793, 12);
+                loggingRichTextBox.Visible = false;
             }
         }
 
         private void button5_Click(object sender, EventArgs e)
         {
             loggingRichTextBox.Text = null;
+        }
+
+        private void label2_MouseHover(object sender, EventArgs e)
+        {
+            toolTip1.SetToolTip(label2, @"Instagram hashtags that you wish to use.");
+        }
+
+        private void label3_MouseHover(object sender, EventArgs e)
+        {
+            toolTip1.SetToolTip(label3, @"Instagram usernames that you wish to use.");
         }
     }
 }

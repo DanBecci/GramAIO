@@ -15,3 +15,15 @@ C:\Users\akl03\Desktop\GramAIO\GramAIO\obj\Debug\GramAIO.csproj.CoreCompileInput
 C:\Users\akl03\Desktop\GramAIO\GramAIO\obj\Debug\GramAIO.csproj.CopyComplete
 C:\Users\akl03\Desktop\GramAIO\GramAIO\obj\Debug\GramAIO.exe
 C:\Users\akl03\Desktop\GramAIO\GramAIO\obj\Debug\GramAIO.pdb
+C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Debug\protobuf-net.Core.dll
+C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Debug\System.Buffers.dll
+C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Debug\System.Collections.Immutable.dll
+C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Debug\System.Memory.dll
+C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Debug\protobuf-net.Core.xml
+C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Debug\System.Buffers.xml
+C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Debug\System.Collections.Immutable.xml
+C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Debug\System.Memory.xml
+C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml

@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.loggingCheckbox = new System.Windows.Forms.CheckBox();
             this.checkBox5 = new System.Windows.Forms.CheckBox();
             this.button4 = new System.Windows.Forms.Button();
             this.checkBox4 = new System.Windows.Forms.CheckBox();
@@ -54,9 +56,9 @@
             this.label6 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label7 = new System.Windows.Forms.Label();
-            this.loggingCheckbox = new System.Windows.Forms.CheckBox();
             this.loggingRichTextBox = new System.Windows.Forms.RichTextBox();
             this.button5 = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -83,6 +85,18 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(191, 415);
             this.panel1.TabIndex = 0;
+            // 
+            // loggingCheckbox
+            // 
+            this.loggingCheckbox.AutoSize = true;
+            this.loggingCheckbox.ForeColor = System.Drawing.Color.White;
+            this.loggingCheckbox.Location = new System.Drawing.Point(45, 35);
+            this.loggingCheckbox.Name = "loggingCheckbox";
+            this.loggingCheckbox.Size = new System.Drawing.Size(49, 17);
+            this.loggingCheckbox.TabIndex = 17;
+            this.loggingCheckbox.Text = "Logs";
+            this.loggingCheckbox.UseVisualStyleBackColor = true;
+            this.loggingCheckbox.CheckedChanged += new System.EventHandler(this.loggingCheckbox_CheckedChanged);
             // 
             // checkBox5
             // 
@@ -274,6 +288,7 @@
             this.label3.Size = new System.Drawing.Size(103, 38);
             this.label3.TabIndex = 5;
             this.label3.Text = "USERS";
+            this.label3.MouseHover += new System.EventHandler(this.label3_MouseHover);
             // 
             // richTextBox1
             // 
@@ -311,6 +326,7 @@
             this.label2.Size = new System.Drawing.Size(87, 38);
             this.label2.TabIndex = 4;
             this.label2.Text = "TAGS";
+            this.label2.MouseHover += new System.EventHandler(this.label2_MouseHover);
             // 
             // richTextBox3
             // 
@@ -379,18 +395,6 @@
             this.label7.TabIndex = 1;
             this.label7.Text = "X";
             this.label7.Click += new System.EventHandler(this.label7_Click);
-            // 
-            // loggingCheckbox
-            // 
-            this.loggingCheckbox.AutoSize = true;
-            this.loggingCheckbox.ForeColor = System.Drawing.Color.White;
-            this.loggingCheckbox.Location = new System.Drawing.Point(45, 35);
-            this.loggingCheckbox.Name = "loggingCheckbox";
-            this.loggingCheckbox.Size = new System.Drawing.Size(49, 17);
-            this.loggingCheckbox.TabIndex = 17;
-            this.loggingCheckbox.Text = "Logs";
-            this.loggingCheckbox.UseVisualStyleBackColor = true;
-            this.loggingCheckbox.CheckedChanged += new System.EventHandler(this.loggingCheckbox_CheckedChanged);
             // 
             // loggingRichTextBox
             // 
@@ -482,5 +486,6 @@
         private System.Windows.Forms.CheckBox loggingCheckbox;
         private System.Windows.Forms.RichTextBox loggingRichTextBox;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

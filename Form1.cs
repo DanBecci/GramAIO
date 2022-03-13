@@ -31,7 +31,7 @@ namespace GramAIO
             }
         }
 
-        private void loginBtn_Click(object sender, EventArgs e)
+        void loginHandle()
         {
             if (usernameTextBox.Text != "Username" && passwordTextBox.Text != "Password" && usernameTextBox.Text != null && passwordTextBox.Text != null)
             {
@@ -43,8 +43,13 @@ namespace GramAIO
             }
             else
             {
-                MessageBox.Show("Invalid login!");
+                loginBtn.FlatAppearance.BorderColor = Color.Red;
+                loginBtn.Text = "Bad Login";
             }
+        }
+        private void loginBtn_Click(object sender, EventArgs e)
+        {
+            loginHandle();
         }
 
         private void usernameTextBox_Leave(object sender, EventArgs e)
@@ -87,6 +92,34 @@ namespace GramAIO
         private void panel1_MouseUp(object sender, MouseEventArgs e)
         {
             mouseDown = false;
+        }
+
+        private void usernameTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyValue == 13)
+            {
+                loginHandle();
+            }
+        }
+
+        private void passwordTextBox_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyValue == 13)
+            {
+                loginHandle();
+            }
+        }
+
+        private void usernameTextBox_TextChanged(object sender, EventArgs e)
+        {
+            loginBtn.FlatAppearance.BorderColor = Color.FromArgb(251, 173, 80);
+            loginBtn.Text = "Login";
+        }
+
+        private void passwordTextBox_TextChanged(object sender, EventArgs e)
+        {
+            loginBtn.FlatAppearance.BorderColor = Color.FromArgb(251, 173, 80);
+            loginBtn.Text = "Login";
         }
     }
 }

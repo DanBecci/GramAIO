@@ -50,6 +50,8 @@
             this.usernameTextBox.Text = "Username";
             this.usernameTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.usernameTextBox.Click += new System.EventHandler(this.usernameTextBox_Click);
+            this.usernameTextBox.TextChanged += new System.EventHandler(this.usernameTextBox_TextChanged);
+            this.usernameTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.usernameTextBox_KeyUp);
             this.usernameTextBox.Leave += new System.EventHandler(this.usernameTextBox_Leave);
             // 
             // loginLbl
@@ -77,6 +79,8 @@
             this.passwordTextBox.Text = "Password";
             this.passwordTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.passwordTextBox.Click += new System.EventHandler(this.passwordTextBox_Click);
+            this.passwordTextBox.TextChanged += new System.EventHandler(this.passwordTextBox_TextChanged);
+            this.passwordTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.passwordTextBox_KeyUp);
             this.passwordTextBox.Leave += new System.EventHandler(this.passwordTextBox_Leave);
             // 
             // loginBtn

@@ -13,14 +13,7 @@ namespace GramAIO
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            if (Properties.Settings.Default.username != null && Properties.Settings.Default.password != null)
-            {
-                Application.Run(new GramAIO());
-            }
-            else
-            {
-                Application.Run(new Form1());
-            }
+            Application.Run(new Form1());
         }
     }
 }
