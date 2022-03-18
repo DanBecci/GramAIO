@@ -7,6 +7,7 @@ Currently, there is still work to be done to the comment and username tag module
 Additionally, this project will be updated often, eventually there will be auto-update implemented but for now, refer to this page for all updates
 
 Clone this project: git clone https://github.com/SlashRobotics/GramAIO
+
 Refer to the debug folder for the latest build
 
 Latest Update: Added further functionality to the 'USERS' module, implemented unfollow module, small performance tweaks. There is stil work to be done currently.
