@@ -1,4 +1,4 @@
-// (Source code by slash#1995 on Discord)
+//  (Source code by slash#1995 on Discord)
 
 using System;
 using System.Drawing;
