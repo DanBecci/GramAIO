@@ -2,6 +2,11 @@ This is a instagram bot. This bot can perform functions such as following, likin
 in beta and will be finished later this week. Most of the bot's functions work currently so I am releasing this for the time being. You are free to download and
 experiment with my code or build the current version yourself. Make sure to include citation (Source code by slash#1995 on Discord)
 
-![InkedGramAIO_LI](https://user-images.githubusercontent.com/97326643/157801471-d703b18d-1c33-417b-8aa2-2b920ecb1e67.jpg)
+Currently, there is still work to be done to the comment and username tag modules. I also plan on condensing tags to one section at some point. These changes will be coming 3/20/2022.
+
+Additionally, this project will be updated often, eventually there will be auto-update implemented but for now, refer to this page for all updates
+
+Clone this project: git clone https://github.com/SlashRobotics/GramAIO
 
 VT: https://www.virustotal.com/gui/file/a99242431587636d3ede91f7a0e01dca22d310f2fd9fc18b06c4ab634dd35d4a/detection
+![GramAIO](https://user-images.githubusercontent.com/97326643/158081533-b0f1c400-5ffd-421b-b16b-98547fb53404.PNG)
