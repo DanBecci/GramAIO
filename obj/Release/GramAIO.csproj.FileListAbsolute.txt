@@ -27,3 +27,7 @@ C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Release\System.Collections.Immutable.
 C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Release\System.Memory.xml
 C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Release\System.Numerics.Vectors.xml
 C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Release\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Release\Bunifu.UI.WinForms.BunifuTransition.dll
+C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Release\Bunifu.Licensing.dll
+C:\Users\akl03\Desktop\GramAIO\GramAIO\obj\Release\GramAIO.exe.config
+C:\Users\akl03\Desktop\GramAIO\GramAIO\obj\Release\GramAIO.exe.licenses

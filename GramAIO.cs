@@ -72,10 +72,30 @@ namespace GramAIO
                 box.ScrollToCaret();
             }
         }
+        private void DelayTime()
+        {
+            TextColor(loggingRichTextBox, $"Delaying for {textBox1.Text}ms", Color.Orange);
+            Thread.Sleep(Convert.ToInt32(textBox1.Text));           
+        }
         List<string> listElem2 = new List<string>();
+        List<string> listElem3 = new List<string>();
         private void button1_Click(object sender, EventArgs e)
         {
-            paused = false;
+            if(checkBox4.Checked && checkBox3.Checked || checkBox4.Checked && checkBox2.Checked || checkBox4.Checked && checkBox1.Checked)
+            {
+                MessageBox.Show("You may only run the unfollow module while it is selected");
+                return;
+            }
+            if (richTextBox1.Text != "Enter tags with or without '#', one per line" && richTextBox2.Text != "Enter users with or without '@', one per line")
+            {
+                MessageBox.Show("You may not run the tags and users module at the same time");
+                return;
+            }
+            if(Convert.ToInt32(textBox1.Text) < 3000)
+            {
+                MessageBox.Show("WARNING your delay is under 3 seconds. This may result in performance errors.");
+                return;
+            }
             if (checkBox4.Checked == false && checkBox1.Checked == false && checkBox3.Checked == false && checkBox2.Checked == false)
             {
                 MessageBox.Show("Please select a module to run first!");
@@ -119,19 +139,44 @@ namespace GramAIO
                 MessageBox.Show("Your interaction count must be less than 30");
                 return;
             }
+            paused = false;
             TextColor(loggingRichTextBox, $"Logging in {usrTB.Text}", Color.Orange);
 
-            List<string> list = new List<string>();
+            List<string> list = new List<string>();            
+            List<string> list2 = new List<string>();
+
             string linePlaceholder = "";
-            foreach (string line in richTextBox1.Lines)
+            if(richTextBox2.Text == "Enter users with or without '@', one per line")
             {
-                linePlaceholder = line;
-                if (linePlaceholder.StartsWith("#"))
+                foreach (string line in richTextBox1.Lines)
                 {
-                    linePlaceholder = linePlaceholder.Remove(0, 1);
+                    linePlaceholder = line;
+                    if (linePlaceholder.StartsWith("#"))
+                    {
+                        linePlaceholder = linePlaceholder.Remove(0, 1);
+                    }
+                    if (linePlaceholder.Contains(".com") || linePlaceholder.Contains("https:") || linePlaceholder.Contains("http:") || linePlaceholder.Contains("/"))
+                    {
+                        continue;
+                    }
+                    list.Add(linePlaceholder);
                 }
-                list.Add(linePlaceholder);
-                            
+            }
+            else if (richTextBox2.Text != "Enter users with or without '@', one per line")
+            {
+                foreach (string line in richTextBox2.Lines)
+                {
+                    linePlaceholder = line;
+                    if (linePlaceholder.StartsWith("@"))
+                    {
+                        linePlaceholder = linePlaceholder.Remove(0, 1);
+                    }
+                    if (linePlaceholder.Contains(".com") || linePlaceholder.Contains("https:") || linePlaceholder.Contains("http:") || linePlaceholder.Contains("/"))
+                    {
+                        continue;
+                    }
+                    list2.Add(linePlaceholder);
+                }
             }
             new Task(() =>
             {
@@ -173,7 +218,127 @@ namespace GramAIO
 
                     // Logic part of program to handle module to run, all other code should be handled in their own classes
 
-                    if (checkBox1.Checked)
+                    // users module
+                    if (checkBox1.Checked && richTextBox2.Text != "Enter users with or without '@', one per line")
+                    {
+                        //TAG
+                        numCounter = 0;
+                        //POST
+                        listElemCounter = 0;
+                        //INTERACTIONS
+                        placeCounter = 0;
+                        async Task UsersModule()
+                        {
+                            while (numCounter < richTextBox2.Lines.Count())
+                            {
+                                try
+                                {
+                                    while (paused == true)
+                                    {
+
+                                    }
+                                    List<string> listElem = new List<string>();
+                                    DelayTime();
+                                    TextColor(loggingRichTextBox, $"Getting user: {list2[numCounter]}", Color.Orange);
+                                    driverRenew.Navigate().GoToUrl("https://www.instagram.com/" + list2[numCounter] + "/");
+                                    TextColor(loggingRichTextBox, "Gathering user's followers", Color.Orange);
+                                    w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.CssSelector("li.Y8-fY:nth-child(2) > a:nth-child(1) > div:nth-child(1)"))).Click();
+                                    w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath("//a[@class='notranslate _0imsa ']")));
+                                    var elem = driverRenew.FindElements(By.XPath("//a[@class='notranslate _0imsa ']"));
+                                    int hrefCounter = 0;
+                                    foreach (var elems in elem)
+                                    {
+                                        string ELEM = elems.GetAttribute("href");
+                                        listElem.Add(ELEM);
+                                        hrefCounter++;
+                                    }
+                                    TextColor(loggingRichTextBox, $"Total posts gathered: {hrefCounter}", Color.Green);
+                                    DelayTime();
+
+                                    void checkLink()
+                                    {
+                                        foreach (var elem3 in listElem3)
+                                        {
+                                            if (elem3 == listElem[listElemCounter])
+                                            {
+                                                TextColor(loggingRichTextBox, "Already took action on this user", Color.Red);
+                                                TextColor(loggingRichTextBox, "Moving to next user", Color.Orange);
+                                                listElemCounter++;
+                                                checkLink();
+                                            }
+                                        }
+                                    }
+
+                                    checkLink();
+
+                                    TextColor(loggingRichTextBox, $"Getting user: {listElem[listElemCounter]}", Color.Orange);
+                                    driverRenew.Navigate().GoToUrl(listElem[listElemCounter]);
+                                    listElem3.Add(listElem[listElemCounter]);
+                                    w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath("//button[@class='sqdOP  L3NKy   y3zKF     ']")));
+                                    DelayTime();
+                                    driverRenew.FindElement(By.XPath("//button[@class='sqdOP  L3NKy   y3zKF     ']")).Click();
+                                    TextColor(loggingRichTextBox, "Followed user successfully", Color.Green);
+                                    DelayTime();
+                                    driverRenew.Navigate().Refresh();
+
+                                    if (checkBox2.Checked)
+                                    {
+                                        try
+                                        {
+                                            // gather posts from user
+                                            w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath("//div[@class='Nnq7C weEfm']")));
+                                            var postElem = driverRenew.FindElements(By.XPath("//div[@class='Nnq7C weEfm']"));
+                                            List<string> userPostList = new List<string>();
+                                            foreach (var item in postElem)
+                                            {
+                                                string ELEM = item.GetAttribute("href");
+                                                userPostList.Add(ELEM);
+                                                
+                                            }
+                                            driverRenew.Navigate().GoToUrl(userPostList[listElemCounter]);
+                                            // find like button
+                                            WebDriverWait wait = new WebDriverWait(driverRenew, TimeSpan.FromSeconds(5));
+                                            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.CssSelector("button span > svg[aria-label='Like']")));
+                                            //like the post
+                                            DelayTime();
+                                            var svgObject = driverRenew.FindElement(By.CssSelector("button span > svg[aria-label='Like']"));
+                                            Actions builder = new Actions(driverRenew);
+                                            builder.MoveToElement(svgObject).Click().Build().Perform();
+                                            TextColor(loggingRichTextBox, "Liked post successfully", Color.Green);
+                                        }
+                                        catch (Exception)
+                                        {
+                                            TextColor(loggingRichTextBox, "Could not gather posts", Color.Red);
+                                        }
+
+                                    }
+                                    TextColor(loggingRichTextBox, "Moving to next user", Color.Orange);
+                                    listElemCounter++;
+                                    placeCounter++;
+                                    if (placeCounter == Convert.ToInt32(textBox2.Text))
+                                    {
+                                        TextColor(loggingRichTextBox, "Moving to next tag", Color.Orange);
+                                        numCounter++;
+                                        placeCounter = 0;
+                                        listElemCounter = 0;
+                                    }
+                                    UsersModule();
+
+                                }
+                                catch (Exception)
+                                {
+
+                                }
+                            }
+                            //MessageBox.Show("No more tags to run");                               
+                            driverRenew.Quit();
+                            driverRenew.Close();
+                        }
+                        UsersModule();
+                        TextColor(loggingRichTextBox, "All tags finished", Color.Green);
+                        TextColor(loggingRichTextBox, "Stopping task", Color.Red);
+                    }
+                    if (checkBox1.Checked && richTextBox2.Text == "Enter users with or without '@', one per line")
                     {
                         TextColor(loggingRichTextBox, "Starting follow module", Color.Orange);
                         // Follow module
@@ -189,8 +354,6 @@ namespace GramAIO
                         {
                             while (numCounter < richTextBox1.Lines.Count())
                             {
-
-
                                 if (checkBox5.Checked)
                                 {
                                     if (listElemCounter < 9)
@@ -210,7 +373,7 @@ namespace GramAIO
 
                                     }
                                     List<string> listElem = new List<string>();
-                                    Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                    DelayTime();
                                     TextColor(loggingRichTextBox, $"Getting tag: {list[numCounter]}", Color.Orange);
                                     driverRenew.Navigate().GoToUrl("https://www.instagram.com/explore/tags/" + list[numCounter] + "/");
                                     TextColor(loggingRichTextBox, "Gathering posts", Color.Orange);
@@ -223,7 +386,7 @@ namespace GramAIO
                                         hrefCounter++;
                                     }
                                     TextColor(loggingRichTextBox, $"Total posts gathered: {hrefCounter}", Color.Green);
-                                    Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                    DelayTime();
                                     if (listElem[listElemCounter] == null || listElem[listElemCounter] == "https://www.instagram.com/")
                                     {
                                         TextColor(loggingRichTextBox, "Tag does not contain sufficient posts", Color.Red);
@@ -259,16 +422,16 @@ namespace GramAIO
                                     driverRenew.Navigate().GoToUrl(listElem[listElemCounter]);
                                     listElem2.Add(listElem[listElemCounter]);
                                     w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.CssSelector("button.sqdOP:nth-child(2) > div:nth-child(1)")));
-                                    Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                    DelayTime();
                                     driverRenew.FindElement(By.CssSelector("button.sqdOP:nth-child(2) > div:nth-child(1)")).Click();
                                     TextColor(loggingRichTextBox, "Followed user successfully", Color.Green);
-                                    Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                    DelayTime();
                                     driverRenew.Navigate().Refresh();
                                     if (checkBox2.Checked)
                                     {
                                         //like the post
                                         //w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath("/html/body/div[1]/section/main/div/div[1]/article/div/div[2]/div/div[2]/section[1]/span[1]/button/div[1]/svg")));
-                                        Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                        DelayTime();
                                         var svgObject = driverRenew.FindElement(By.CssSelector("button span > svg[aria-label='Like']"));
                                         Actions builder = new Actions(driverRenew);
                                         builder.MoveToElement(svgObject).Click().Build().Perform();
@@ -279,7 +442,7 @@ namespace GramAIO
                                     {
                                         //comment on post
 
-                                        Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                        DelayTime();
                                         var svgObject = driverRenew.FindElement(By.XPath("/html/body/div[1]/section/main/div/div[1]/article/div/div[2]/div/div[2]/section[3]/div/form/textarea"));
                                         Actions builder = new Actions(driverRenew);
                                         builder.MoveToElement(svgObject).Click().Build().Perform();
@@ -296,7 +459,7 @@ namespace GramAIO
                                         // IJavaScriptExecutor jse = (IJavaScriptExecutor)driverRenew;
                                         // jse.ExecuteScript($"arguments[0].value='{richTextBox3.Text}';", wb);
 
-                                        Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                        DelayTime();
                                         var svgObject2 = driverRenew.FindElement(By.XPath("/html/body/div[1]/section/main/div/div[1]/article/div/div[2]/div/div[2]/section[3]/div/form/button/div"));
                                         Actions builder2 = new Actions(driverRenew);
                                         builder2.MoveToElement(svgObject2).Click().Build().Perform();
@@ -330,7 +493,7 @@ namespace GramAIO
                     }
 
                     //////////////////////////////////////////
-                    else if (checkBox2.Checked)
+                    else if (checkBox2.Checked && richTextBox2.Text == "Enter users with or without '@', one per line")
                     {
                         TextColor(loggingRichTextBox, "Starting like module", Color.Orange);
                         //TAG
@@ -364,7 +527,7 @@ namespace GramAIO
 
                                     }
                                     List<string> listElem = new List<string>();
-                                    Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                    DelayTime();
                                     TextColor(loggingRichTextBox, $"Getting tag: {list[numCounter]}", Color.Orange);
                                     driverRenew.Navigate().GoToUrl("https://www.instagram.com/explore/tags/" + list[numCounter] + "/");
                                     TextColor(loggingRichTextBox, "Gathering posts", Color.Orange);
@@ -377,7 +540,7 @@ namespace GramAIO
                                         hrefCounter++;
                                     }
                                     TextColor(loggingRichTextBox, $"Total posts gathered: {hrefCounter}", Color.Green);
-                                    Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                    DelayTime();
                                     if (listElem[listElemCounter] == null || listElem[listElemCounter] == "https://www.instagram.com/")
                                     {
                                         TextColor(loggingRichTextBox, "Tag does not contain sufficient posts", Color.Red);
@@ -412,7 +575,7 @@ namespace GramAIO
                                     TextColor(loggingRichTextBox, $"Getting post: {listElem[listElemCounter]}", Color.Orange);
                                     driverRenew.Navigate().GoToUrl(listElem[listElemCounter]);
                                     listElem2.Add(driverRenew.Url);
-                                    Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                    DelayTime();
                                     var svgObject = driverRenew.FindElement(By.CssSelector("button span > svg[aria-label='Like']"));
                                     Actions builder = new Actions(driverRenew);
                                     builder.MoveToElement(svgObject).Click().Build().Perform();
@@ -422,10 +585,10 @@ namespace GramAIO
                                     {
                                         //follow the user
                                         w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.CssSelector("button.sqdOP:nth-child(2) > div:nth-child(1)")));
-                                        Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                        DelayTime();
                                         driverRenew.FindElement(By.CssSelector("button.sqdOP:nth-child(2) > div:nth-child(1)")).Click();
                                         TextColor(loggingRichTextBox, "Followed user successfully", Color.Green);
-                                        Thread.Sleep(Convert.ToInt32(textBox1.Text));
+                                        DelayTime();
                                         driverRenew.Navigate().Refresh();
                                     }
                                     TextColor(loggingRichTextBox, "Moving to next post", Color.Orange);
@@ -457,6 +620,18 @@ namespace GramAIO
                     {
                         // Comment module
                         TextColor(loggingRichTextBox, "Starting comment module", Color.Green);
+                    }
+                    else if (checkBox4.Checked)
+                    {
+                        w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath("/html/body/div[1]/section/main/div/header/section/ul/li[3]/a"))).Click();
+                        w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath("//button[@class='sqdOP  L3NKy    _8A5w5    ']")));
+                        var users = driverRenew.FindElements(By.XPath("//button[@class='sqdOP  L3NKy    _8A5w5    ']"));
+                        foreach(var user in users)
+                        {
+                            user.Click();
+                            w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath("//button[@class='aOOlW -Cab_   ']"))).Click();
+                            DelayTime();
+                        }
                     }
 
                     // code below no longer needed
@@ -620,7 +795,7 @@ namespace GramAIO
 
         private void richTextBox1_Click(object sender, EventArgs e)
         {
-            if (richTextBox1.Text == "Enter tags, one per line. Do not include '#' in your tags!")
+            if (richTextBox1.Text == "Enter tags with or without '#', one per line")
             {
                 richTextBox1.Text = "";
             }
@@ -628,7 +803,7 @@ namespace GramAIO
 
         private void richTextBox2_Click(object sender, EventArgs e)
         {
-            if (richTextBox2.Text == "Enter users, one per line. Do not include '@' in your users!")
+            if (richTextBox2.Text == "Enter users with or without '@', one per line")
             {
                 richTextBox2.Text = "";
             }
@@ -792,6 +967,16 @@ namespace GramAIO
         private void label3_MouseHover(object sender, EventArgs e)
         {
             toolTip1.SetToolTip(label3, @"Instagram usernames that you wish to use.");
+        }
+
+        private void usrTB_MouseHover(object sender, EventArgs e)
+        {
+            toolTip1.SetToolTip(usrTB, "Instagram username");
+        }
+
+        private void pswTB_MouseHover(object sender, EventArgs e)
+        {
+            toolTip1.SetToolTip(pswTB, "Instagram password");
         }
     }
 }
