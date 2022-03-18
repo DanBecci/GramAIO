@@ -1,4 +1,6 @@
-﻿using System;
+// (Source code by slash#1995 on Discord)
+
+using System;
 using System.Windows.Forms;
 
 namespace GramAIO
