@@ -6,5 +6,7 @@ Currently, there is still work to be done to the comment and username tag module
 
 Additionally, this project will be updated often, eventually there will be auto-update implemented but for now, refer to this page for all updates
 
+Clone this project: git clone https://github.com/SlashRobotics/GramAIO
+
 VT: https://www.virustotal.com/gui/file/a99242431587636d3ede91f7a0e01dca22d310f2fd9fc18b06c4ab634dd35d4a/detection
 ![GramAIO](https://user-images.githubusercontent.com/97326643/158081533-b0f1c400-5ffd-421b-b16b-98547fb53404.PNG)
