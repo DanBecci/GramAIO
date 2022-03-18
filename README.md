@@ -4,5 +4,7 @@ experiment with my code or build the current version yourself. Make sure to incl
 
 Currently, there is still work to be done to the comment and username tag modules. I also plan on condensing tags to one section at some point. These changes will be coming 3/20/2022.
 
+Additionally, this project will be updated often, eventually there will be auto-update implemented but for now, refer to this page for all updates
+
 VT: https://www.virustotal.com/gui/file/a99242431587636d3ede91f7a0e01dca22d310f2fd9fc18b06c4ab634dd35d4a/detection
 ![GramAIO](https://user-images.githubusercontent.com/97326643/158081533-b0f1c400-5ffd-421b-b16b-98547fb53404.PNG)
