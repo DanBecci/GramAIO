@@ -239,72 +239,73 @@ namespace GramAIO
                                     }
                                     List<string> listElem = new List<string>();
                                     DelayTime();
+                                    // getting tag from USERS list
                                     TextColor(loggingRichTextBox, $"Getting user: {list2[numCounter]}", Color.Orange);
                                     driverRenew.Navigate().GoToUrl("https://www.instagram.com/" + list2[numCounter] + "/");
                                     TextColor(loggingRichTextBox, "Gathering user's followers", Color.Orange);
-                                    w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.CssSelector("li.Y8-fY:nth-child(2) > a:nth-child(1) > div:nth-child(1)"))).Click();
-                                    w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath("//a[@class='notranslate _0imsa ']")));
-                                    var elem = driverRenew.FindElements(By.XPath("//a[@class='notranslate _0imsa ']"));
+                                    w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.CssSelector("li.Y8-fY:nth-child(2) > a:nth-child(1) > div:nth-child(1)"))).Click();                      
+                                    var scroll = driverRenew.FindElement(By.XPath("//div[@class='isgrP']"));
+                                    IJavaScriptExecutor user = (IJavaScriptExecutor)driverRenew;
+                                    int scrollNum = 0;
+                                    while (scrollNum < 5)
+                                    {
+                                        w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath("//div[@class='isgrP']")));
+                                        user.ExecuteScript("arguments[0].scrollTop = arguments[1];", scroll, 1000);
+                                        scrollNum += 1;
+                                    }                             
+                                    //w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath("//a[@class='notranslate _0imsa ']")));
+                                    //var elem = driverRenew.FindElements(By.XPath("//a[@class='notranslate _0imsa ']"));
+                                    var elem = driverRenew.FindElements(By.XPath("//button[@class='sqdOP  L3NKy   y3zKF     ']"));
                                     int hrefCounter = 0;
                                     foreach (var elems in elem)
                                     {
-                                        string ELEM = elems.GetAttribute("href");
-                                        listElem.Add(ELEM);
-                                        hrefCounter++;
-                                    }
-                                    TextColor(loggingRichTextBox, $"Total posts gathered: {hrefCounter}", Color.Green);
-                                    DelayTime();
-
-                                    void checkLink()
-                                    {
-                                        foreach (var elem3 in listElem3)
+                                        if(placeCounter == Convert.ToInt32(textBox2.Text))
                                         {
-                                            if (elem3 == listElem[listElemCounter])
-                                            {
-                                                TextColor(loggingRichTextBox, "Already took action on this user", Color.Red);
-                                                TextColor(loggingRichTextBox, "Moving to next user", Color.Orange);
-                                                listElemCounter++;
-                                                checkLink();
-                                            }
+                                            TextColor(loggingRichTextBox, "Moving to next tag", Color.Orange);
+                                            numCounter++;
+                                            placeCounter = 0;
+                                            listElemCounter = 0;
+                                            break;
                                         }
+                                        while(placeCounter < Convert.ToInt32(textBox2.Text))
+                                        {                                            
+                                            elems.Click();
+                                            TextColor(loggingRichTextBox, "Followed user successfully", Color.Green);
+                                            DelayTime();
+                                            hrefCounter++;
+                                            TextColor(loggingRichTextBox, "Moving to next user", Color.Orange);
+                                            listElemCounter++;
+                                            placeCounter++;
+                                        }                                       
                                     }
-
-                                    checkLink();
-
-                                    TextColor(loggingRichTextBox, $"Getting user: {listElem[listElemCounter]}", Color.Orange);
-                                    driverRenew.Navigate().GoToUrl(listElem[listElemCounter]);
-                                    listElem3.Add(listElem[listElemCounter]);
-                                    w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath("//button[@class='sqdOP  L3NKy   y3zKF     ']")));
-                                    DelayTime();
-                                    driverRenew.FindElement(By.XPath("//button[@class='sqdOP  L3NKy   y3zKF     ']")).Click();
-                                    TextColor(loggingRichTextBox, "Followed user successfully", Color.Green);
-                                    DelayTime();
                                     driverRenew.Navigate().Refresh();
-
+                                    TextColor(loggingRichTextBox, $"Total users followed: {hrefCounter}", Color.Green);
+                                    DelayTime();                                    
+                                    /*
                                     if (checkBox2.Checked)
                                     {
                                         try
-                                        {
-                                            // gather posts from user
-                                            w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath("//div[@class='Nnq7C weEfm']")));
-                                            var postElem = driverRenew.FindElements(By.XPath("//div[@class='Nnq7C weEfm']"));
-                                            List<string> userPostList = new List<string>();
-                                            foreach (var item in postElem)
-                                            {
-                                                string ELEM = item.GetAttribute("href");
-                                                userPostList.Add(ELEM);
-                                                
-                                            }
-                                            driverRenew.Navigate().GoToUrl(userPostList[listElemCounter]);
-                                            // find like button
-                                            WebDriverWait wait = new WebDriverWait(driverRenew, TimeSpan.FromSeconds(5));
-                                            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.CssSelector("button span > svg[aria-label='Like']")));
-                                            //like the post
-                                            DelayTime();
-                                            var svgObject = driverRenew.FindElement(By.CssSelector("button span > svg[aria-label='Like']"));
-                                            Actions builder = new Actions(driverRenew);
-                                            builder.MoveToElement(svgObject).Click().Build().Perform();
-                                            TextColor(loggingRichTextBox, "Liked post successfully", Color.Green);
+                                       {
+                                                // gather posts from user
+                                                w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath("//div[@class='Nnq7C weEfm']")));
+                                                var postElem = driverRenew.FindElements(By.XPath("//div[@class='Nnq7C weEfm']"));
+                                                List<string> userPostList = new List<string>();
+                                                foreach (var item in postElem)
+                                                {
+                                                    string ELEM = item.GetAttribute("href");
+                                                    userPostList.Add(ELEM);
+
+                                                }
+                                                driverRenew.Navigate().GoToUrl(userPostList[listElemCounter]);
+                                                // find like button
+                                                WebDriverWait wait = new WebDriverWait(driverRenew, TimeSpan.FromSeconds(5));
+                                                wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.CssSelector("button span > svg[aria-label='Like']")));
+                                                //like the post
+                                                DelayTime();
+                                                var svgObject = driverRenew.FindElement(By.CssSelector("button span > svg[aria-label='Like']"));
+                                                Actions builder = new Actions(driverRenew);
+                                                builder.MoveToElement(svgObject).Click().Build().Perform();
+                                                TextColor(loggingRichTextBox, "Liked post successfully", Color.Green);                                         
                                         }
                                         catch (Exception)
                                         {
@@ -312,16 +313,8 @@ namespace GramAIO
                                         }
 
                                     }
-                                    TextColor(loggingRichTextBox, "Moving to next user", Color.Orange);
-                                    listElemCounter++;
-                                    placeCounter++;
-                                    if (placeCounter == Convert.ToInt32(textBox2.Text))
-                                    {
-                                        TextColor(loggingRichTextBox, "Moving to next tag", Color.Orange);
-                                        numCounter++;
-                                        placeCounter = 0;
-                                        listElemCounter = 0;
-                                    }
+                                    */
+                                   
                                     UsersModule();
 
                                 }

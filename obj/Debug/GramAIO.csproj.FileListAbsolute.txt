@@ -31,3 +31,6 @@ C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Debug\Bunifu.UI.WinForms.BunifuTransi
 C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Debug\Bunifu.Licensing.dll
 C:\Users\akl03\Desktop\GramAIO\GramAIO\obj\Debug\GramAIO.exe.config
 C:\Users\akl03\Desktop\GramAIO\GramAIO\obj\Debug\GramAIO.exe.licenses
+C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Debug\HtmlAgilityPack.dll
+C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Debug\HtmlAgilityPack.pdb
+C:\Users\akl03\Desktop\GramAIO\GramAIO\bin\Debug\HtmlAgilityPack.xml
