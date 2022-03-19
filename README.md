@@ -12,6 +12,6 @@ Refer to the debug folder for the latest build
 
 Latest Update: Added further functionality to the 'USERS' module, implemented unfollow module, small performance tweaks. There is stil work to be done currently.
 
-VT: https://www.virustotal.com/gui/file/08c97911862e929c4008c0e7247dba862dd3fc498f00ae9b2d206271ab31f707/detection
-It looks like there is a couple false positives. This is likely due to the file not being signed.
+VT: https://www.virustotal.com/gui/file/24177d01f5b65715b6f3bc8422d581f16ed23d8cc300bc16745638ddb64567a0/detection
+
 ![GramAIO](https://user-images.githubusercontent.com/97326643/158081533-b0f1c400-5ffd-421b-b16b-98547fb53404.PNG)
