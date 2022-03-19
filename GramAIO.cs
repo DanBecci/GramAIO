@@ -1,3 +1,5 @@
+// (Source code by slash#1995 on Discord)
+
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Interactions;

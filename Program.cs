@@ -1,8 +1,14 @@
+<<<<<<< HEAD
 ﻿
 using HtmlAgilityPack;
 using OpenQA.Selenium.Chrome;
 using System;
 using System.Threading.Tasks;
+=======
+// (Source code by slash#1995 on Discord)
+
+using System;
+>>>>>>> 0f2b1409f00397a41f2e8c082878d220d71df386
 using System.Windows.Forms;
 
 namespace GramAIO
