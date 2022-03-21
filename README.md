@@ -12,6 +12,7 @@ Refer to the debug folder for the latest build
 
 Latest Update: Added gather tags and unfollow modules, bug fixes, FP correction
 
+Have an idea for us? Post it here: https://forms.gle/8xoB7HnGJQsaP4qQ9
 VT: https://www.virustotal.com/gui/file/0c305417931ab6f9126d0c8a2f4d6a66aade7c38ee1da0aa204b367d01949b45/detection
 
 ![GramAIO](https://user-images.githubusercontent.com/97326643/158081533-b0f1c400-5ffd-421b-b16b-98547fb53404.PNG)
