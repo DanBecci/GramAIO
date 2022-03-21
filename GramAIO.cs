@@ -83,6 +83,11 @@ namespace GramAIO
         List<string> listElem3 = new List<string>();
         private void button1_Click(object sender, EventArgs e)
         {
+            if(checkBox6.Checked && checkBox4.Checked || checkBox3.Checked && checkBox4.Checked || checkBox6.Checked && checkBox2.Checked || checkBox6.Checked && checkBox1.Checked)
+            {
+                MessageBox.Show("You may not gather tags and run a module at the same time");
+                return;
+            }
             if(checkBox4.Checked && checkBox3.Checked || checkBox4.Checked && checkBox2.Checked || checkBox4.Checked && checkBox1.Checked)
             {
                 MessageBox.Show("You may only run the unfollow module while it is selected");
@@ -98,7 +103,7 @@ namespace GramAIO
                 MessageBox.Show("WARNING your delay is under 3 seconds. This may result in performance errors.");
                 return;
             }
-            if (checkBox4.Checked == false && checkBox1.Checked == false && checkBox3.Checked == false && checkBox2.Checked == false)
+            if (checkBox4.Checked == false && checkBox1.Checked == false && checkBox3.Checked == false && checkBox2.Checked == false && checkBox6.Checked == false)
             {
                 MessageBox.Show("Please select a module to run first!");
                 return;
@@ -628,24 +633,79 @@ namespace GramAIO
                             DelayTime();
                         }
                     }
-
-                    // code below no longer needed
-                    /*
-                    else if (checkBox1.Checked && checkBox2.Checked && checkBox3.Checked)
+                    else if (checkBox6.Checked)
                     {
-                        // AIO module
-                    }
-                    */
+                        list.Clear();
+                        int placeholder = 0;
+                        int lineCounter = richTextBox1.Lines.Count();
+                        int counter6 = 0;
+                        void getTags()
+                        {
+                            while (counter6 < lineCounter)
+                            {
+                                if (richTextBox1.Text.Contains("Enter tags with or without '#', one per line"))
+                                {
+                                    MessageBox.Show("Please enter some hashtags first");
+                                    return;
+                                }
+                                int numericUpDown = Convert.ToInt32(Math.Round(numericUpDown1.Value, 0));
+                                int counter = 0;
+                                // Gather tags module
+                                w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath("//div[@class=' QY4Ed P0xOK']"))).Click();
+                                //w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath("//input[@class='XTCLo d_djL DljaH focus-visible']")));
+                                var searchBox = driverRenew.FindElement(By.XPath("//input[@class='XTCLo d_djL DljaH focus-visible']"));
+                                DelayTime();
+                                searchBox.Clear();
 
+                                foreach (string line in richTextBox1.Lines)
+                                {
+                                    linePlaceholder = line;
+                                    if (linePlaceholder.StartsWith("#") == false)
+                                    {
+                                        linePlaceholder = linePlaceholder.Insert(0, "#");
+                                    }
+                                    if (linePlaceholder.Contains(".com") || linePlaceholder.Contains("https:") || linePlaceholder.Contains("http:") || linePlaceholder.Contains("/"))
+                                    {
+                                        continue;
+                                    }
+                                    list.Add(linePlaceholder);
+                                }
+
+                                searchBox.SendKeys(list[placeholder]);
+                                w.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementExists(By.XPath("//a[@class='-qQT3']")));
+                                var relatedTags = driverRenew.FindElements(By.XPath("//a[@class='-qQT3']"));
+                                foreach (var tag in relatedTags)
+                                {
+                                    while (counter < numericUpDown)
+                                    {
+                                        string tagLink = tag.GetAttribute("href");
+                                        string searchFor = "tags/";
+                                        if (tagLink != null)
+                                        {
+                                            tagLink = tagLink.Substring(tagLink.IndexOf(searchFor) + searchFor.Length);
+                                            tagLink = tagLink.Remove(tagLink.Length - 1, 1);
+                                            if (!(richTextBox1.Text.Contains(tagLink)) && !(tagLink.Contains("%")))
+                                            {
+                                                richTextBox1.Text += $"\n{tagLink}";
+                                                counter++;
+                                            }                                                                                                 
+                                            break;
+                                        }
+                                    }
+                                }
+                                driverRenew.Navigate().Refresh();
+                                counter6++;
+                                placeholder++;
+                            }
+                        }
+                        getTags();
+                    }
                 }
                 // error occured while logging in, dispose of the browser and prompt the user of the occurence.
                 // possibly want to change this to a retry in 30 minutes handler
                 catch (Exception)
                 {
-                    //TODO: make this valid below
-                    //driverRenew.Quit();
-                    //loggedIn = false;
-                    //MessageBox.Show("There was an error!");
+
                 }
             }).Start();
         }
