@@ -10,7 +10,7 @@ Clone this project: git clone https://github.com/SlashRobotics/GramAIO
 
 Refer to the debug folder for the latest build
 
-Latest Update: Added further functionality to the 'USERS' module, implemented unfollow module, small performance tweaks. There is stil work to be done currently.
+Latest Update: Added gather tags and unfollow modules
 
 VT: https://www.virustotal.com/gui/file/24177d01f5b65715b6f3bc8422d581f16ed23d8cc300bc16745638ddb64567a0/detection
 
