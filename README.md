@@ -1,6 +1,8 @@
 This is a instagram bot. This bot can perform functions such as following, liking, and commenting on user's posts by hashtag or username search. The bot is
 in beta and will be finished later this month. Most of the bot's functions work currently so I am releasing this for the time being. You are free to download and experiment with my code or build the current version yourself. Make sure to include citation (Source code by slash#1995 on Discord). Make sure you also have Google Chrome installed on your system.
 
+COMING SOON is mass media posting, deleting, and editing.
+
 Additionally, this project will be updated often, eventually there will be auto-update implemented but for now, refer to this page for all updates
 
 Clone this project: git clone https://github.com/SlashRobotics/GramAIO
